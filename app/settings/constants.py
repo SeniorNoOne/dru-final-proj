@@ -5,5 +5,4 @@ DATA_FOLDER = '\\data'
 
 TRAIN_CSV = os.path.join(BASE_DIR + DATA_FOLDER, 'train.csv')
 VAL_CSV = os.path.join(BASE_DIR + DATA_FOLDER, 'val.csv')
-
-
+SAVED_ESTIMATOR = os.path.join(BASE_DIR, 'models/SVC.pickle')
