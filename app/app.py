@@ -34,3 +34,9 @@ if __name__ == "__main__":
     # to test localhost is used
     # for containerized app 0.0.0.0 is used
     app.run(debug=True, host='0.0.0.0', port=8000)
+
+# TODO: split new dataset into corresponding csvs
+# TODO: test new DataLoader class in notebook
+# TODO: Define the best model for classification
+# TODO: Create and test new model using notebook
+# TODO: Test Flask API locally and using Docker

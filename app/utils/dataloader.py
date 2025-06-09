@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import re
 
 from sklearn.preprocessing import LabelEncoder
 
@@ -9,80 +8,46 @@ class DataLoader(object):
     def fit(self, dataset):
         self.dataset = dataset.copy()
 
-    # apply regex
-    def get_title(self, name):
-        pattern = ' ([A-Za-z]+)\.'
-        title_search = re.search(pattern, name)
-        # If the title exists, extract and return it.
-        if title_search:
-            return title_search.group(1)
-        return ""
-
     def load_data(self):
-        # columns combination
-        self.dataset['FamilySize'] = self.dataset['SibSp'] + self.dataset['Parch'] + 1
+        # Age in decades
+        self.dataset['age_in_decades'] = 0.1 * self.dataset['age']
+        self.dataset['age_in_decades'] = self.dataset['age_in_decades'].astype(int)
 
-        # replace value
-        self.dataset['IsAlone'] = 0
-        self.dataset.loc[self.dataset['FamilySize'] == 1, 'IsAlone'] = 1
+        # BMI NANs
+        self.dataset.loc[self.dataset['bmi'].isna(), 'bmi'] = self.dataset['bmi'].median()
 
-        # fill Nan with mode
-        self.dataset['Embarked'] = self.dataset['Embarked'].fillna(
-            self.dataset['Embarked'].mode()[0])
+        # BMI
+        self.dataset['bmi'] = pd.cut(
+            self.dataset['bmi'],
+            bins=[-float('inf'), 18.5, 25, 30, float('inf')],
+            labels=[0, 1, 2, 3],
+            right=True
+        ).astype(int)
 
-        # fill Nan with median
-        self.dataset['Fare'] = self.dataset['Fare'].fillna(self.dataset['Fare'].median())
-        # binning with qcut
-        self.dataset['Fare'] = pd.qcut(self.dataset['Fare'], 4)
+        # Glucose level
+        self.dataset['avg_glucose_level'] = pd.qcut(self.dataset['avg_glucose_level'], 8)
 
-        # fill Nan with values from random distribution
-        age_avg = self.dataset['Age'].mean()
-        age_std = self.dataset['Age'].std()
-        age_null_count = self.dataset['Age'].isnull().sum()
-        rng = np.random.RandomState(42)
-        age_null_random_list = rng.uniform(age_avg - age_std, age_avg + age_std,
-                                           size=age_null_count)
-        self.dataset['Age'][np.isnan(self.dataset['Age'])] = age_null_random_list
+        # heart_disease_total
+        self.dataset['heart_disease_total'] = (self.dataset['hypertension'] +
+                                               self.dataset['heart_disease'])
 
-        # binning with cut
-        self.dataset['Age'] = pd.cut(self.dataset['Age'], 5)
-
-        # apply regex
-        self.dataset['Title'] = self.dataset['Name'].apply(self.get_title)
-        # replace
-        self.dataset['Title'] = self.dataset['Title'].replace(
-            ['Lady', 'Countess', 'Capt', 'Col', 'Don',
-             'Dr', 'Major', 'Rev', 'Sir', 'Jonkheer', 'Dona'],
-            'Rare')
-        # replace
-        self.dataset['Title'] = self.dataset['Title'].replace(['Mlle', 'Ms'], 'Miss')
-        # replace
-        self.dataset['Title'] = self.dataset['Title'].replace('Mme', 'Mrs')
-        # fill nans
-        self.dataset['Title'] = self.dataset['Title'].fillna(0)
-
-        # drop columns
-        drop_elements = ['PassengerId', 'Name', 'Ticket', 'Cabin', 'SibSp',
-                         'Parch', 'FamilySize']
-
+        # Dropping non essential columns
+        drop_elements = ['id', 'age', 'Residence_type', 'hypertension', 'heart_disease', 'gender']
         self.dataset = self.dataset.drop(drop_elements, axis=1)
 
-        # encode labels
+        # Encoding
         le = LabelEncoder()
 
-        le.fit(self.dataset['Sex'])
-        self.dataset['Sex'] = le.transform(self.dataset['Sex'])
+        le.fit(self.dataset['ever_married'])
+        self.dataset['ever_married'] = le.transform(self.dataset['ever_married'])
 
-        le.fit(self.dataset['Title'])
-        self.dataset['Title'] = le.transform(self.dataset['Title'])
+        le.fit(self.dataset['work_type'])
+        self.dataset['work_type'] = le.transform(self.dataset['work_type'])
 
-        le.fit(self.dataset['Embarked'].values)
-        self.dataset['Embarked'] = le.transform(self.dataset['Embarked'].values)
+        le.fit(self.dataset['smoking_status'])
+        self.dataset['smoking_status'] = le.transform(self.dataset['smoking_status'])
 
-        le.fit(self.dataset['Fare'])
-        self.dataset['Fare'] = le.transform(self.dataset['Fare'])
-
-        le.fit(self.dataset['Age'])
-        self.dataset['Age'] = le.transform(self.dataset['Age'])
+        le.fit(self.dataset['avg_glucose_level'])
+        self.dataset['avg_glucose_level'] = le.transform(self.dataset['avg_glucose_level'])
 
         return self.dataset
