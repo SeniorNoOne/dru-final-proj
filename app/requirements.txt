@@ -1,4 +1,4 @@
 Flask
 numpy
 pandas
-scikit_learn
+scikit-learn==1.0.2

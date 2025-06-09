@@ -35,7 +35,8 @@
             "params": {
                 "in_columns_list":[
                     [
-                        "age"
+                        "age",
+                        "bmi"
                     ]
                 ],
                 "out_columns": [
@@ -43,7 +44,8 @@
                 ],
                 "coefficients_list": [
                     [
-                        0.1
+                        0.1,
+                        0
                     ]
                 ],
                 "biases": [
@@ -183,7 +185,7 @@
                 "methods": [
                     "qcut"
                 ],
-                "bin_nums": [
+                "bins_nums": [
                     8
                 ],
                 "inplaces": [
