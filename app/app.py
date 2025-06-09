@@ -31,9 +31,11 @@ def predict():
 
 
 if __name__ == "__main__":
-    # to test localhost is used
-    # for containerized app 0.0.0.0 is used
+    # for containerized app
     app.run(debug=True, host='0.0.0.0', port=8000)
+
+    # For local tests
+    # app.run(debug=True, host='127.0.0.1', port=8000)
 
 # TODO: split new dataset into corresponding csvs
 # TODO: test new DataLoader class in notebook
