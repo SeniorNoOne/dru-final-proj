@@ -33,20 +33,16 @@
             "operation_number": 1,
             "operation_name": "columns_combination",
             "params": {
-                "in_columns_list":[
-                    [
-                        "age",
-                        "bmi"
-                    ]
+                "in_columns_list": [
+                    "age",
+                    "bmi"
                 ],
                 "out_columns": [
                     "age_in_decades"
                 ],
                 "coefficients_list": [
-                    [
                         0.1,
                         0
-                    ]
                 ],
                 "biases": [
                     0
@@ -80,6 +76,9 @@
                 "new_values": [
                     0
                 ],
+                "old_values": [
+                    []
+                ],
                 "condition_columns": [
                     "bmi"
                 ],
@@ -104,6 +103,9 @@
                 ],
                 "new_values": [
                     1
+                ],
+                "old_values": [
+                    []
                 ],
                 "condition_columns": [
                     "bmi"
@@ -132,6 +134,9 @@
                 "new_values": [
                     2
                 ],
+                "old_values": [
+                    []
+                ],
                 "condition_columns": [
                     "bmi"
                 ],
@@ -158,6 +163,9 @@
                 ],
                 "new_values": [
                     3
+                ],
+                "old_values": [
+                    []
                 ],
                 "condition_columns": [
                     "bmi"
@@ -199,19 +207,15 @@
             "operation_name": "columns_combination",
             "params": {
                "in_columns_list": [
-                    [
-                        "hypertension",
-                        "heart_disease"
-                    ]
+                   "hypertension",
+                   "heart_disease"
                 ],
                 "out_columns": [
                     "heart_disease_total"
                 ],
                 "coefficients_list": [
-                    [
-                        1,
-                        1
-                    ]
+                    1,
+                    1
                 ],
                 "biases": [
                     0
