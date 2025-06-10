@@ -17,11 +17,11 @@
         "final_columns": [
             "ever_married",
             "work_type",
+            "age",
             "avg_glucose_level",
             "bmi",
             "smoking_status",
             "stroke",
-            "age_in_decades",
             "heart_disease_total"
         ],
         "y": "stroke",
@@ -31,30 +31,6 @@
     "operations": [
         {
             "operation_number": 1,
-            "operation_name": "columns_combination",
-            "params": {
-                "in_columns_list": [
-                    "age",
-                    "bmi"
-                ],
-                "out_columns": [
-                    "age_in_decades"
-                ],
-                "coefficients_list": [
-                        0.1,
-                        0
-                ],
-                "biases": [
-                    0
-                ],
-                "methods": [
-                    "addition"
-                ]
-            }
-        },
-
-        {
-            "operation_number": 2,
             "operation_name": "fill_nans",
             "params":{
                 "in_columns": [
@@ -67,14 +43,14 @@
         },
 
         {
-            "operation_number": 3,
+            "operation_number": 2,
             "operation_name": "replace",
             "params": {
                 "in_columns": [
                     "bmi"
                 ],
                 "new_values": [
-                    0
+                    0.0
                 ],
                 "old_values": [
                     []
@@ -95,14 +71,14 @@
         },
 
         {
-            "operation_number": 4,
+            "operation_number": 3,
             "operation_name": "replace",
             "params": {
                 "in_columns": [
                     "bmi"
                 ],
                 "new_values": [
-                    1
+                    1.0
                 ],
                 "old_values": [
                     []
@@ -116,7 +92,7 @@
                 ],
                 "condition_values": [
                     18.5,
-                    25
+                    25.0
                 ],
                 "inplaces": [
                     "True"
@@ -125,14 +101,14 @@
         },
 
         {
-            "operation_number": 5,
+            "operation_number": 4,
             "operation_name": "replace",
             "params": {
                 "in_columns": [
                     "bmi"
                 ],
                 "new_values": [
-                    2
+                    2.0
                 ],
                 "old_values": [
                     []
@@ -145,8 +121,8 @@
                     "lte"
                 ],
                 "condition_values": [
-                    25,
-                    30
+                    25.0,
+                    30.0
                 ],
                 "inplaces": [
                     "True"
@@ -155,14 +131,14 @@
         },
 
         {
-            "operation_number": 6,
+            "operation_number": 5,
             "operation_name": "replace",
             "params":{
                 "in_columns": [
                     "bmi"
                 ],
                 "new_values": [
-                    3
+                    3.0
                 ],
                 "old_values": [
                     []
@@ -174,7 +150,7 @@
                     "greater"
                 ],
                 "condition_values": [
-                    30
+                    30.0
                 ],
                 "inplaces": [
                     "True"
@@ -184,7 +160,7 @@
 
 
         {
-            "operation_number": 7,
+            "operation_number": 6,
             "operation_name": "bins",
             "params":{
                 "in_columns":[
@@ -203,7 +179,7 @@
         },
 
         {
-            "operation_number": 8,
+            "operation_number": 7,
             "operation_name": "columns_combination",
             "params": {
                "in_columns_list": [
@@ -227,12 +203,11 @@
         },
 
         {
-            "operation_number": 9,
+            "operation_number": 8,
             "operation_name": "drop_columns",
             "params": {
                 "in_columns": [
                     "id",
-                    "age",
                     "Residence_type",
                     "hypertension",
                     "heart_disease",
@@ -242,7 +217,7 @@
         },
 
         {
-            "operation_number": 10,
+            "operation_number": 9,
             "operation_name": "encode_labels",
             "params": {
                 "in_columns": [

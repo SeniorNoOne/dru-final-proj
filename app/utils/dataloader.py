@@ -10,19 +10,18 @@ class DataLoader(object):
 
     def load_data(self):
         # Age in decades
-        self.dataset['age_in_decades'] = 0.1 * self.dataset['age']
-        self.dataset['age_in_decades'] = self.dataset['age_in_decades'].astype(int)
+        # self.dataset['age_in_decades'] = 0.1 * self.dataset['age']
+        # self.dataset['age_in_decades'] = self.dataset['age_in_decades'].astype(int)
 
         # BMI NANs
         self.dataset.loc[self.dataset['bmi'].isna(), 'bmi'] = self.dataset['bmi'].median()
 
         # BMI
-        self.dataset['bmi'] = pd.cut(
-            self.dataset['bmi'],
-            bins=[-float('inf'), 18.5, 25, 30, float('inf')],
-            labels=[0, 1, 2, 3],
-            right=True
-        ).astype(int)
+        # workaround for compliance with validator
+        self.dataset.loc[self.dataset['bmi'] <= 18.5, 'bmi'] = 0.0
+        self.dataset.loc[(self.dataset['bmi'] > 18.5) & (self.dataset['bmi'] <= 25), 'bmi'] = 1.0
+        self.dataset.loc[(self.dataset['bmi'] > 25.0) & (self.dataset['bmi'] <= 30), 'bmi'] = 2.0
+        self.dataset.loc[self.dataset['bmi'] > 30, 'bmi'] = 3.0
 
         # Glucose level
         self.dataset['avg_glucose_level'] = pd.qcut(self.dataset['avg_glucose_level'], 8)
@@ -32,7 +31,7 @@ class DataLoader(object):
                                                self.dataset['heart_disease'])
 
         # Dropping non essential columns
-        drop_elements = ['id', 'age', 'Residence_type', 'hypertension', 'heart_disease', 'gender']
+        drop_elements = ['id', 'Residence_type', 'hypertension', 'heart_disease', 'gender']
         self.dataset = self.dataset.drop(drop_elements, axis=1)
 
         # Encoding

@@ -8,7 +8,6 @@ def save_model():
     from utils.dataloader import DataLoader
     from settings.constants import TRAIN_CSV
 
-
     with open('settings/specifications.json') as f:
         specifications = json.load(f)
 
